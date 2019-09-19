@@ -6,7 +6,7 @@
   "name": "Fabric Starter",
   "icon": "assets/starter/icon.png",
   "description": "Template for starting out Fabric mods",
-  "licence": "MIT",
+  "license": "MIT",
   "contact": {
     "sources": "https://github.com/CottonMC/FabricStarter"
   },
