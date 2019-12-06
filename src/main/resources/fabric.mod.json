@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "starter",
-  "version": "$version",
+  "version": "${version}",
 
   "name": "Fabric Starter",
   "icon": "assets/starter/icon.png",
