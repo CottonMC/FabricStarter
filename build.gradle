@@ -1,31 +1,17 @@
-buildscript {
-	repositories {
-		jcenter()
-		maven {
-			name = 'Fabric'
-			url = 'http://maven.modmuss50.me/'
-		}
-	}
-	dependencies {
-		classpath "net.fabricmc:fabric-loom:0.2.6-SNAPSHOT"
-	}
-}
-
 plugins {
-	id 'java'
-	id 'eclipse'
-	id 'idea'
-	id 'maven-publish'
+	id "java"
+	id "eclipse"
+	id "idea"
+	id "fabric-loom" version "0.2.6-SNAPSHOT"
+	id "maven-publish"
 	id "com.jfrog.artifactory" version "4.9.0"
 }
-
-apply plugin: net.fabricmc.loom.LoomGradlePlugin
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-if(rootProject.file('private.gradle').exists()) { //Publishing details
-	apply from: 'private.gradle'
+if(rootProject.file("private.gradle").exists()) { //Publishing details
+	apply from: "private.gradle"
 }
 
 archivesBaseName = "${project.archives_base_name}"
@@ -37,8 +23,9 @@ minecraft {
 
 repositories {
 	mavenCentral()
-	maven { url "http://maven.fabricmc.net/" }
-	maven { url "http://server.bbkr.space:8081/artifactory/libs-release" }
+	maven { url "http://maven.fabricmc.net/" } // Fabric maven - home of Fabric API and ModMenu
+	maven { url "http://server.bbkr.space:8081/artifactory/libs-release" } // Cotton maven - home of Cotton projects
+	maven { url "https://maven.abusedmaster.xyz" } // NerdHub maven - home of Cardinal Components
 }
 
 dependencies {
