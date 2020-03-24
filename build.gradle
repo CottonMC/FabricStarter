@@ -24,7 +24,7 @@ minecraft {
 repositories {
 	mavenCentral()
 	maven { url "http://maven.fabricmc.net/" } // Fabric maven - home of Fabric API and ModMenu
-	maven { url "http://server.bbkr.space:8081/artifactory/libs-release" } // Cotton maven - home of Cotton projects
+	maven { url "https://server.bbkr.space/artifactory/libs-release" } // Cotton maven - home of Cotton projects
 	maven { url "https://maven.abusedmaster.xyz" } // NerdHub maven - home of Cardinal Components
 }
 
@@ -99,7 +99,7 @@ publishing {
 
 artifactory {
 	if (project.hasProperty("artifactoryUsername")) {
-		contextUrl = "http://server.bbkr.space:8081/artifactory/"
+		contextUrl = "https://server.bbkr.space/artifactory/"
 		publish {
 			repository {
 				if (version.contains("SNAPSHOT")) {
