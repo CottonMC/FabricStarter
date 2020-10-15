@@ -20,7 +20,7 @@ minecraft {
 
 repositories {
 	maven { url "https://server.bbkr.space/artifactory/libs-release" } // Cotton maven - home of Cotton projects
-	maven { url "https://dl.bintray.com/ladysnake/libs"" } // Ladysnake maven - home of Cardinal Components
+	maven { url "https://dl.bintray.com/ladysnake/libs" } // Ladysnake maven - home of Cardinal Components
 }
 
 dependencies {
