@@ -6,8 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 public class FabricStarter implements ModInitializer {
 	public static final String MODID = "starter";
-
-	public static final Logger logger = LogManager.getLogger();
+	public static final Logger LOGGER = LogManager.getLogger(MODID);
 
 	@Override
 	public void onInitialize() {
