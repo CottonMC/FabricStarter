@@ -1,116 +1,61 @@
 plugins {
-	id "fabric-loom" version "0.5-SNAPSHOT"
 	id "maven-publish"
-	id "com.jfrog.artifactory" version "4.15.2"
-}
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-if(rootProject.file("private.gradle").exists()) { //Publishing details
-	apply from: "private.gradle"
+	id 'org.quiltmc.loom' version '0.12.+'
 }
 
 archivesBaseName = "${project.archives_base_name}"
 group = "${project.maven_group}"
 version = "${project.mod_version}+${project.minecraft_version}"
 
-minecraft {
-}
 
 repositories {
+	maven { url "https://maven.oroarmor.com" } // OroArmor maven - home of QM over intermediary
 	maven { url "https://server.bbkr.space/artifactory/libs-release" } // Cotton maven - home of Cotton projects
-	maven { url "https://dl.bintray.com/ladysnake/libs" } // Ladysnake maven - home of Cardinal Components
+	maven { url "https://repo.sleeping.town" } // Sleeping Town maven - home of Lib39
+	maven { url "https://ladysnake.jfrog.io/artifactory/mods" } // Ladysnake maven - home of Cardinal Components
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_build}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	mappings "org.quiltmc:quilt-mappings:${project.minecraft_version}+build.${project.mappings_build}:intermediary-v2"
+	modImplementation "org.quiltmc:quilt-loader:${project.loader_version}"
+	modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${project.qfapi_version}-${project.minecraft_version}"
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 }
 
 processResources {
-	inputs.property "version", project.version
-	from(sourceSets.main.resources.srcDirs) {
-		include "fabric.mod.json"
-		expand version: project.version
-	}
-	from(sourceSets.main.resources.srcDirs) {
-		exclude "fabric.mod.json"
+	inputs.property "version", version
+
+	filesMatching('quilt.mod.json') {
+		expand "version": version
 	}
 }
 
-// ensure that the encoding is set to UTF-8, no matter what the system default is
-// this fixes some edge cases with special characters not displaying correctly
-// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-tasks.withType(JavaCompile) {
-	options.encoding = "UTF-8"
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = "UTF-8"
+	it.options.release = 17
 }
 
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-	archiveClassifier = "sources"
-	from sourceSets.main.allSource
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+
+	withSourcesJar()
 }
 
 jar {
-	from "LICENSE"
+	from("LICENSE") {
+		rename { "${it}_${archivesBaseName}" }
+	}
 }
 
-// configure the maven publication
 publishing {
 	publications {
-		maven(MavenPublication) {
-			// add all the jars that should be included when publishing to maven
-			artifact(remapJar) {
-				classifier null
-				builtBy remapJar
-			}
-
-			/*artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}-dev.jar") { //release jar - file location not provided anywhere in loom
-				classifier "dev"
-				builtBy remapJar
-			}*/
-
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
+		mavenJava(MavenPublication) {
+			from components.java
 		}
 	}
 
-	// select the repositories you want to publish to
 	repositories {
-		// uncomment to publish to the local maven
-		// mavenLocal()
-	}
-}
-
-artifactory {
-	if (project.hasProperty("artifactoryUsername")) {
-		contextUrl = "https://server.bbkr.space/artifactory/"
-		publish {
-			repository {
-				if (version.contains("SNAPSHOT")) {
-					repoKey = "libs-snapshot"
-				} else {
-					repoKey = "libs-release"
-				}
-
-				username = artifactoryUsername
-				password = artifactoryPassword
-			}
-			defaults {
-				publications("maven")
-
-				publishArtifacts = true
-				publishPom = true
-			}
-		}
-	} else {
-		println "Cannot configure artifactory; please define ext.artifactoryUsername and ext.artifactoryPassword before running artifactoryPublish"
 	}
 }
