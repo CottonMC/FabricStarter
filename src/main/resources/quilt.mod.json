@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schema_version": 1,
   "quilt_loader": {
     "group": "io.github.cottonmc",
     "id": "starter",
