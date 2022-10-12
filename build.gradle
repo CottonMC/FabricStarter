@@ -9,7 +9,6 @@ version = "${project.mod_version}+${project.minecraft_version}"
 
 
 repositories {
-	maven { url "https://maven.oroarmor.com" } // OroArmor maven - home of QM over intermediary
 	maven { url "https://server.bbkr.space/artifactory/libs-release" } // Cotton maven - home of Cotton projects
 	maven { url "https://repo.sleeping.town" } // Sleeping Town maven - home of Lib39
 	maven { url "https://ladysnake.jfrog.io/artifactory/mods" } // Ladysnake maven - home of Cardinal Components
