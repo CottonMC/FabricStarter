@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "starter",
+	"version": "${version}",
+	"name": "Fabric Starter",
+	"description": "Template for starting out Fabric mods",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"sources": "https://github.com/CottonMC/FabricStarter"
+	},
+	"license": "MIT",
+	"icon": "assets/starter/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"io.github.cottonmc.starter.FabricStarter"
+		]
+	},
+	"mixins": [
+		"mixins.starter.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.9",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
