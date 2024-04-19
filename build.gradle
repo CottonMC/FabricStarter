@@ -1,6 +1,6 @@
 plugins {
 	id "maven-publish"
-	id 'org.quiltmc.loom' version '0.12.+'
+	id 'fabric-loom' version '1.6-SNAPSHOT'
 }
 
 archivesBaseName = "${project.archives_base_name}"
@@ -8,30 +8,39 @@ group = "${project.maven_group}"
 version = "${project.mod_version}+${project.minecraft_version}"
 
 
+loom {
+
+	mods {
+		"modid" {
+			sourceSet sourceSets.main
+		}
+	}
+
+}
+
 repositories {
-	maven { url "https://server.bbkr.space/artifactory/libs-release" } // Cotton maven - home of Cotton projects
 	maven { url "https://repo.sleeping.town" } // Sleeping Town maven - home of Lib39
-	maven { url "https://ladysnake.jfrog.io/artifactory/mods" } // Ladysnake maven - home of Cardinal Components
+	maven { url "https://maven.ladysnake.org/releases" } // Ladysnake maven - home of Cardinal Components
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "org.quiltmc:quilt-mappings:${project.minecraft_version}+build.${project.mappings_build}:intermediary-v2"
-	modImplementation "org.quiltmc:quilt-loader:${project.loader_version}"
-	modImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${project.qfapi_version}-${project.minecraft_version}"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}+${project.minecraft_version}"
 }
 
 processResources {
 	inputs.property "version", version
 
-	filesMatching('quilt.mod.json') {
+	filesMatching('fabric.mod.json') {
 		expand "version": version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.encoding = "UTF-8"
 	it.options.release = 17
 }
 
