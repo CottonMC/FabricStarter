@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "org.quiltmc:quilt-mappings:${project.minecraft_version}+build.${project.mappings_build}:intermediary-v2"
+	mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.mappings_build}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 
